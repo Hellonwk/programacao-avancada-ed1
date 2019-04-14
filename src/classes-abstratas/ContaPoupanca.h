@@ -15,6 +15,10 @@ public:
 	ContaPoupanca(unsigned int numero, Cliente cliente) : Conta(numero, cliente){
 		//cout << "ContaPoupanca()" << endl;
 	}
+	ContaPoupanca() : Conta() {
+		//cout << "ContaPoupanca()" << endl;
+	}
+	
 	//metodos
 	void extrato(){
 		Conta::extrato();

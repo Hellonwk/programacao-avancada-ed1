@@ -15,8 +15,8 @@ using namespace std;
 class BancoController {
 public:
 	//construtores
-	BancoController() : _contas(new ContaCorrente[100]), _numContas(0), _bancoView() {
-		cout << "BancoController()" << endl;
+	BancoController() : _contasCorrente(new ContaCorrente[50]), _contasPoupanca(new ContaPoupanca[50]), _numContasCorrente(0), _numContasPoupanca(0),_bancoView() {
+		//cout << "BancoController()" << endl;
 	}
 	//metodos publicos
 	void executar(){
@@ -29,41 +29,137 @@ public:
 	
 private:
 	//metodos privados		
-	void cadastrarConta(ContaCorrente conta){
-		_contas[_numContas++] = conta;
+	void cadastrarContaCorrente(ContaCorrente conta){
+		_contasCorrente[_numContasCorrente++] = conta;
+	}
+	
+	void cadastrarContaPoupanca(ContaPoupanca conta){
+		_contasPoupanca[_numContasPoupanca++] = conta;
 	}
 	
 	void listaContas(){
-		_bancoView.exibirContas(_contas, _numContas);
+		_bancoView.exibirContas(_contasCorrente, _contasPoupanca, _numContasCorrente, _numContasPoupanca);
 	}
 		
 	void realizarDeposito() {
-		ContaCorrente* conta = _bancoView.selecionarConta(_contas, _numContas);
-		_bancoView.exibirDeposito(*conta);
+		unsigned int tipo;
+		cout << "A conta para deposito eh tipo Corrente (digite 0) ou tipo Poupanca (digite 1)?" << endl;
+		cin >> tipo;
+		
+		if (tipo == 0) {
+			ContaCorrente* conta = _bancoView.selecionarContaCorrente(_contasCorrente, _numContasCorrente);
+			_bancoView.exibirDeposito(*conta);
+		}else{
+			if(tipo == 1){
+				ContaPoupanca* conta = _bancoView.selecionarContaPoupanca(_contasPoupanca, _numContasPoupanca);
+				_bancoView.exibirDeposito(*conta);
+			}else{
+				_bancoView.exibirMensagemErro("Voce deve escolher o tipo da conta a receber o deposito!");
+				return;
+			}
+		}	
 	}
 	
 	void realizarRetirada() {
-		ContaCorrente* conta = _bancoView.selecionarConta(_contas, _numContas);
-		_bancoView.exibirRetirada(*conta);
+		unsigned int tipo;
+		cout << "A conta para retirada eh tipo Corrente (digite 0) ou tipo Poupanca (digite 1)? " << endl;
+		cin >> tipo;
+		
+		if (tipo == 0) {
+			ContaCorrente* conta = _bancoView.selecionarContaCorrente(_contasCorrente, _numContasCorrente);
+			_bancoView.exibirRetirada(*conta);
+		}else{
+			if(tipo == 1){
+				ContaPoupanca* conta = _bancoView.selecionarContaPoupanca(_contasPoupanca, _numContasPoupanca);
+				_bancoView.exibirRetirada(*conta);
+			}else{
+				_bancoView.exibirMensagemErro("Voce deve escolher o tipo da conta a receber o deposito!");
+				return;
+			}
+		}
 	}
 	
 	void realizarTransferencia(){
-		cout << "Selecione a conta que ira transferir o dinheiro: " << endl;
-		ContaCorrente* contaTransfere = _bancoView.selecionarConta(_contas, _numContas);	
-		cout << "Selecione a conta que ira receber o dinheiro da transferencia: " << endl;	
-		ContaCorrente* contaRecebe = _bancoView.selecionarConta(_contas, _numContas);
+		unsigned int tipo, tipo1;
+		
+		cout << "A conta para transferir o dinheiro da transferencia eh tipo Corrente (digite 0) ou tipo Poupanca (digite 1)?" << endl;
+		cin >> tipo;
+		Conta* contaTransfere;
+		Conta* contaRecebe;
+		if(tipo == 0){
+			cout << "Selecione a conta que ira transferir o dinheiro: " << endl;
+			contaTransfere = _bancoView.selecionarContaCorrente(_contasCorrente, _numContasCorrente);
+		}else{
+			if(tipo == 1) {
+				contaTransfere = _bancoView.selecionarContaPoupanca(_contasPoupanca, _numContasPoupanca);
+			}else{
+				_bancoView.exibirMensagemErro("Voce deve escolher o tipo da conta a tranferir o dinheiro!");
+				return;
+			}
+		}
+		
+		cout << "A conta para receber o dinheiro da transferencia eh tipo Corrente (digite 0) ou tipo Poupanca (digite 1)?" << endl;
+		cin >> tipo1;
+		if(tipo1 == 0){
+			cout << "Selecione a conta que ira transferir o dinheiro: " << endl;
+			contaRecebe = _bancoView.selecionarContaCorrente(_contasCorrente, _numContasCorrente);
+		}else{
+			if(tipo1 == 1) {
+				contaRecebe = _bancoView.selecionarContaPoupanca(_contasPoupanca, _numContasPoupanca);
+			}else{
+				_bancoView.exibirMensagemErro("Voce deve escolher o tipo da conta a receber o dinheiro!");
+				return;
+			}
+		}
+		
 		_bancoView.exibirTransferencia(*contaTransfere, *contaRecebe);
 	}
 	
+	void exibirJuros() {
+		unsigned int tipo;
+		
+		cout << "A conta para visualizar o juros eh tipo Corrente (digite 0) ou tipo Poupanca (digite 1)?" << endl;
+		cin >> tipo;
+		if(tipo == 0){
+			ContaCorrente* conta = _bancoView.selecionarContaCorrente(_contasCorrente, _numContasCorrente);
+			_bancoView.exibirJuros(*conta);
+		}else{
+			if(tipo == 1) {
+				ContaPoupanca* conta = _bancoView.selecionarContaPoupanca(_contasPoupanca, _numContasPoupanca);
+				_bancoView.exibirJuros(*conta);
+			}else{
+				_bancoView.exibirMensagemErro("Voce deve escolher o tipo da conta a receber o dinheiro!");
+				return;
+			}
+		}
+	}
+	
 	void exibirExtrato() {
-		ContaCorrente* conta = _bancoView.selecionarConta(_contas, _numContas);
-		_bancoView.exibirExtrato(*conta);
+		unsigned int tipo;
+		
+		cout << "A conta para visualizar o extrato eh tipo Corrente (digite 0) ou tipo Poupanca (digite 1)?" << endl;
+		cin >> tipo;
+		if(tipo == 0){
+			ContaCorrente* conta = _bancoView.selecionarContaCorrente(_contasCorrente, _numContasCorrente);
+			_bancoView.exibirExtrato(*conta);
+		}else{
+			if(tipo == 1) {
+				ContaPoupanca* conta = _bancoView.selecionarContaPoupanca(_contasPoupanca, _numContasPoupanca);
+				_bancoView.exibirExtrato(*conta);
+			}else{
+				_bancoView.exibirMensagemErro("Voce deve escolher o tipo da conta a receber o dinheiro!");
+				return;
+			}
+		}
 	}
 	
 	void realizarOpcao(int opcaoSelecionada) {
 		switch (opcaoSelecionada) {
+			case 0:
+				cadastrarContaCorrente(_bancoView.exibirCadastroContaCorrente());
+				break;
 			case 1:
-				cadastrarConta(_bancoView.exibirCadastroConta());
+				cadastrarContaPoupanca(_bancoView.exibirCadastroContaPoupanca());
 				break;
 			case 2:
 				listaContas();
@@ -78,9 +174,12 @@ private:
 				realizarTransferencia();
 				break;
 			case 6:
-				exibirExtrato();
+				exibirJuros();
 				break;
 			case 7:
+				exibirExtrato();
+				break;
+			case 8:
 				exit(0);
 				break;
 			default:
@@ -89,8 +188,10 @@ private:
 		}
 	}
 	//objetos
-	ContaCorrente* _contas;
-	int _numContas;
+	ContaCorrente* _contasCorrente;
+	ContaPoupanca* _contasPoupanca;
+	int _numContasCorrente;
+	int _numContasPoupanca;
 	BancoView _bancoView;
 };
 
