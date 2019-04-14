@@ -15,12 +15,17 @@ public:
 	ContaCorrente(unsigned int numero, Cliente cliente) : Conta(numero, cliente) {
 		//cout << "ContaCorrente()" << endl;
 	}
+	
+	ContaCorrente() : Conta() {
+		//cout << "ContaCorrente()" << endl;
+	}
 	//metodos
 	void extrato(){
-		
+		Conta::extrato();
 	}
 	
 	void aplicaJurosDiarios(int dias) {
+		cout << "-- JUROS --" << endl;
 		cout << "Juros: " << 0.0001 * dias * this->_saldo << endl;
 	}
 };

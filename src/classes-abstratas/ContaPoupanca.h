@@ -17,10 +17,11 @@ public:
 	}
 	//metodos
 	void extrato(){
-		
+		Conta::extrato();
 	}
 	
-	void aplicaJurosDiarios(int dias) {
+	void aplicaJurosDiarios(int dias) {		
+		cout << "-- JUROS --" << endl;
 		cout << "Juros: " << 0.0008 * dias * this->_saldo << endl;
 	}
 };

@@ -10,11 +10,11 @@
 #include "ContaCorrente.h"
 #include "ContaPoupanca.h"
 #include "Cliente.h"
-#include "BancoView.h"
+#include "BancoController.h"
 
 using namespace std;
 
-int main() {
+void atividade3(){
 	/**** Atividade 03 ****/
 	Cliente cliente1("Amanda Cardoso");
 	Cliente cliente2("Rafael Batista");
@@ -28,20 +28,30 @@ int main() {
 	contaCorrente1.deposita(100);
 	contaCorrente1.deposita(400);
 	contaCorrente1.retira(50);
+	contaCorrente1.extrato();
 	
 	contaPoupanca1.deposita(1900);
 	contaPoupanca1.retira(10);
+	contaPoupanca1.extrato();
 	
 	contaCorrente2.deposita(1000);
+	contaCorrente2.extrato();
 	
 	contaPoupanca2.deposita(1000);
+	contaPoupanca2.extrato();
 	
 	contaCorrente2.aplicaJurosDiarios(100);
 	contaPoupanca2.aplicaJurosDiarios(100);
 	
 	contaCorrente2.transfere(contaPoupanca1, 500);
+	contaPoupanca1.extrato();
+	contaCorrente2.extrato();
 	contaPoupanca2.transfere(contaCorrente1, 500);
-	
+	contaCorrente1.extrato();
+	contaPoupanca2.extrato();
+}
+
+void atividade5(){		
 	/**** Atividade 05 ****
 	 * Crie um vetor de 100 contas correntes. Analise o que aconteceu ao criar este vetor. Isto eh um problema? Se sim,como pode ser resolvido? Justifique. */
 	ContaCorrente* *vetorContaCorrente = new ContaCorrente*[100];
@@ -58,6 +68,11 @@ int main() {
 	for(int i = 0; i < 100; i++){
 		vetorContaCorrente[i]->~Conta();
 	}
+}
 
+int main() {
+	BancoController bancoController;
+	bancoController.executar();
+	
 	return 0;
 }

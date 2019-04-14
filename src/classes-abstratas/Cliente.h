@@ -15,11 +15,13 @@ class Cliente{
 public:
 	//contrutores
 	Cliente(string nome) : _nome(nome){
-		cout << "Cliente()" <<endl;
+		//cout << "Cliente()" << endl;
 	}
 	
 	//destrutores
-	~Cliente(){}
+	/*~Cliente(){
+		cout << "~Cliente()" << endl;
+	}*/
 	
 	//metodos
 	void setNome(string nome){
