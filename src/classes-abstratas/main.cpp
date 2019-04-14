@@ -41,6 +41,23 @@ int main() {
 	
 	contaCorrente2.transfere(contaPoupanca1, 500);
 	contaPoupanca2.transfere(contaCorrente1, 500);
+	
+	/**** Atividade 05 ****
+	 * Crie um vetor de 100 contas correntes. Analise o que aconteceu ao criar este vetor. Isto eh um problema? Se sim,como pode ser resolvido? Justifique. */
+	ContaCorrente* *vetorContaCorrente = new ContaCorrente*[100];
+	Cliente clientex("Todos");
+	for(int i = 0; i < 100; i++){
+		vetorContaCorrente[i] = new ContaCorrente(i, clientex);
+	}
+	/*
+	 * 	O vetor eh criado, mas diferentemente das outras contas correntes criadas na atividade 3, essas contas nao chamam o destrutor da classe 
+	 * 	Em uma aplicacao pequena, isso nao seria um problema tao grande, porem, em uma aplicacao com um uso maior de memoria, isso seria um grande problema, visto que 
+	 * 	a memoria nao esta sendo desalocada.
+	 *  A solucao pra este problema seria chamar os destrutores para cada item do vetor.
+	*/
+	for(int i = 0; i < 100; i++){
+		vetorContaCorrente[i]->~Conta();
+	}
 
 	return 0;
 }

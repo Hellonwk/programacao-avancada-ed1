@@ -22,7 +22,7 @@ public:
 
 	//destrutor
     virtual ~Conta() {
-        //cout << "~Conta()" << endl;
+        cout << "Destruindo conta " << _numero << " do cliente "  << _cliente.getNome() << endl;
     }
 
 	//metodos
@@ -33,20 +33,21 @@ public:
 	
     virtual void deposita(float valor) {
     	_saldo += valor;
-    	imprimeSaldo();
+    	//imprimeSaldo();
 	}
 	
 	virtual void retira(float valor) {
 		_saldo -= valor;
-		imprimeSaldo();
+		//imprimeSaldo();
 	}
 
 	virtual void transfere(Conta &contaDestino, float valor){
-		if (valor >= _saldo) {
+		if (valor <= _saldo) {
 			retira(valor);
 			contaDestino.deposita(valor);
+		}else{
+			cout << "Saldo insuficiente!" << endl;
 		}
-		cout << "Saldo insuficiente!" << endl;
 	}
 
 	virtual void extrato(){
